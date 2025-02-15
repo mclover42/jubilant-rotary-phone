@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Привет, это Mini App!</h1>
+    <p>Нажмите кнопку, чтобы отправить сообщение боту:</p>
+    <button onclick="sendMessage()">Отправить сообщение</button>
+
+    <script>
+        function sendMessage() {
+            const userId = Telegram.WebApp.initDataUnsafe.user?.id;
+            if (userId) {
+                fetch('https://api.telegram.org/bot<8041708758:AAG2aPCOSro7w0YDu56HX3bOfmbC5JOe5I0>/sendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: userId,
+                        text: 'Привет от Mini App!'
+                    })
+                }).then(response => response.json())
+                  .then(data => {
+                      alert('Сообщение отправлено!');
+                  })
+                  .catch(error => {
+                      console.error('Ошибка:', error);
+                  });
+            } else {
+                alert('Пользователь не авторизован.');
+            }
+        }
+    </script>
+</body>
+</html>
